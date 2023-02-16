@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { TextField } from '@material-ui/core';
+import { TextField } from '@mui/material';
 import { format } from 'date-fns';
-// helpers
 import _ from 'lodash';
 
 const SELECTED_RANGE = {
@@ -14,7 +13,7 @@ const SELECTED_RANGE = {
 
 ///////////////////
 // BEGIN COMPONENT
-export const TCTimeInput = ({
+export const ReactTimeTextField = ({
   value,
   label,
   onBlur,
