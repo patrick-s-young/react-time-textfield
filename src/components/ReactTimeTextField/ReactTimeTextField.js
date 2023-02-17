@@ -18,6 +18,9 @@ export const ReactTimeTextField = ({
   label,
   onBlur,
   disabled,
+  size,
+  variant,
+  autoComplete,
   ...rest
 }) => {
   const [selected, setSelected] = useState('none');
@@ -180,9 +183,8 @@ export const ReactTimeTextField = ({
     <>
       <>{disabled !== true &&
         <TextField
-          size='small'
-          name='value'
-          variant='outlined'
+          size={size ?? 'small'}
+          variant={variant ?? 'outlined'}
           label={label}
           value={time === null ? '' : `${time.hours}:${time.minutes} ${time.meridiem}`}
           inputRef={textFieldRef}
@@ -190,18 +192,17 @@ export const ReactTimeTextField = ({
           onKeyDown={onKeyDown}
           onClick={onClickToSelect}
           onBlur={onBlurHandler}
-          autoComplete='off'
+          autoComplete={autoComplete ?? 'off'}
           {...rest}
         />
       }</>
 
       <> {disabled === true &&
         <TextField
-          size='small'
-          name='value'
-          variant='outlined'
-          disabled={true}
+          size={size ?? 'small'}
+          variant={variant ?? 'outlined'}
           label={label}
+          disabled={true}
           value={time === null ? '' : `${time.hours}:${time.minutes} ${time.meridiem}`}
           {...rest}
         />
