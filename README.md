@@ -1,6 +1,6 @@
 # React-Time-TextField
 
-A time picker for your React app.
+A controlled Material-UI TextField for keyboard time input.
 
 ## Quick Start
 
@@ -28,11 +28,11 @@ function MyApp() {
   const [value, setValue] = useState(new Date());
 
   return (
-      <ReactTimeTextField 
-			value={value}
-			label='Start Time'
-			onBlur={setValue}
-		/>
+   <ReactTimeTextField
+    value={value}
+    label='Start Time'
+    onBlur={setValue}
+   />
   );
 }
 ```
@@ -41,13 +41,13 @@ function MyApp() {
 
 ReactTimeTextField uses Material-UI TextField. Just pass any styling-related props that the Mui TextField component uses and they will be applied:
 ```
-      <ReactTimeTextField 
-			value={value}
-			label='Start Time'
-			onBlur={setValue}
-      size='large'
-			styles={{ width: '100px', height: '60px' }}
-		/>
+ <ReactTimeTextField
+  value={value}
+  label='Start Time'
+  onBlur={setValue}
+  size='large'
+  styles={{ width: '100px', height: '60px' }}
+ />
 ```
 
 NOTE: onChange, onKeyDown, and onClick props are used internally and are not available. Use onBlur callback to receive date object with specified time value.
