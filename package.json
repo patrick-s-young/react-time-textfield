@@ -1,6 +1,6 @@
 {
   "name": "react-time-textfield",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Material UI TextField with controlled hour/minute/meridiem input",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -11,7 +11,15 @@
     "build-storybook": "build-storybook",
     "build-lib": "rollup -c"
   },
-  "author": "Patrick S. Young",
+  "keywords": [
+    "react",
+    "time",
+    "textfield"
+  ],
+  "author": {
+    "name": "Patrick S. Young",
+    "email": "patrick.shaffer.young@gmail.com"
+  },
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.20.12",
@@ -46,5 +54,9 @@
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+    "repository": {
+    "type": "git",
+    "url": "https://github.com/patrick-s-young/react-time-textfield"
   }
 }
