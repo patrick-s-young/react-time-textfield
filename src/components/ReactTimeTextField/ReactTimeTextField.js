@@ -3,6 +3,7 @@ import { TextField } from '@mui/material';
 import { format } from 'date-fns';
 import _ from 'lodash';
 
+// DIVIDE TEXTFIELD INTO CONTROLLED RANGES
 const SELECTED_RANGE = {
   none: { start: 0, end: 0 },
   hours: { start: 0, end: 2, previous: 'meridiem', next: 'minutes', pattern: /^[0-9]+$/ },
@@ -23,14 +24,19 @@ export const ReactTimeTextField = ({
   autoComplete,
   ...rest
 }) => {
+  // Selection range of textfield input
   const [selected, setSelected] = useState('none');
+  // Time obj 'hours', 'minutes', 'meridiem'
   const [time, setTime] = useState(null);
-  const [redrawCounter, setRedrawCounter] = useState(0);
+  // Control selected range
   const textFieldRef = useRef();
+  // Redraw to update textFieldRef range values
+  const [redrawCounter, setRedrawCounter] = useState(0);
+  // Detect quick succession of key strokes
   const keyDownTimer = useRef(null);
 
 
-  // DETERMINE WHICH ELEMENT OF TIME INPUT TO HIGHLIGHT (i.e. HOURS, MINS, AM/PM)
+  // DETERMINE WHICH ELEMENT OF TIME INPUT TO SELECT/HIGHLIGHT (i.e. HOURS, MINS, AM/PM)
   const onClickToSelect = () => {
     const selectionStart = textFieldRef.current.selectionStart;
     if (selectionStart < SELECTED_RANGE.hours.end + 1) {
@@ -43,9 +49,7 @@ export const ReactTimeTextField = ({
     redraw();
   };
 
-  const redraw = () => setRedrawCounter(redrawCounter => redrawCounter + 1);
-
-  // ON CHANGE HANDLER
+  // DETERMINE VALID INPUT
   const onChange = ({ target: { value } }) => {
     let [hours, minutes, meridiem] = (value.trim()).split(/[:\s]/);
     const timeNow = Date.now();
@@ -57,7 +61,7 @@ export const ReactTimeTextField = ({
         const prevHours = Number(time.hours);
         let hoursFormatted;
         if (timeNow - keyDownTimer.current < 500) {
-          hoursFormatted = (prevHours === 1 && hours < 3) ? '1' + hours : ' ' + hours;
+          hoursFormatted = (prevHours === 1 && hours < 3) ? '1' + hours : hours === 0 ?  time.hours : ' ' + hours;
         } else if (Number(hours) === 0) {
           hoursFormatted = time.hours;
         } else {
@@ -68,7 +72,6 @@ export const ReactTimeTextField = ({
     }
     // UPDATE MINUTES
     if (selected === 'minutes') {
-      console.log('minutes', minutes)
       if (SELECTED_RANGE.minutes.pattern.test(minutes) === false) { redraw(); return };
       minutes = Number(minutes);
       setTime((time) => {
@@ -77,7 +80,7 @@ export const ReactTimeTextField = ({
         if (timeNow - keyDownTimer.current < 500) {
           minutesFormatted = prevMinutes < 6 ? `${prevMinutes}${minutes}` : '0' + minutes;
         } else {
-          minutesFormatted = minutes > 0 ? '0' + minutes : prevMinutes;
+          minutesFormatted = '0' + minutes;
         }
         return { ...time, minutes: minutesFormatted };
       });
@@ -98,7 +101,8 @@ export const ReactTimeTextField = ({
     }
     redraw();
   }
-  // WHEN 'ENTER' OR 'TAB' KEY PRESSED, DETERMINE IF TAG SHOULD BE AUTOCOMPLETED
+
+  // DETERMINE IF 'Enter', 'Tab' OR ARROW KEYS HAVE BEEN PRESSED
   const onKeyDown = (event) => {
     if (selected === 'none') return;
     const { code } = event;
@@ -108,13 +112,13 @@ export const ReactTimeTextField = ({
       setSelected('none');
       return;
     }
-
     if (['Tab', 'ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'].includes(code)) event.preventDefault();
     if (code === 'Tab' || code === 'ArrowRight') setSelected(selected => SELECTED_RANGE[selected].next);
     if (code === 'ArrowLeft') setSelected(selected => SELECTED_RANGE[selected].previous);
     if (code === 'ArrowUp') bumpSelected('up');
     if (code === 'ArrowDown') bumpSelected('down');
   };
+
   // INCREMENT/DECREMENT HOURS/MINUTES & TOGGLE AM/PM
   const bumpSelected = (direction) => {
     setTime(time => {
@@ -142,7 +146,8 @@ export const ReactTimeTextField = ({
       return { hours, minutes, meridiem }
     });
   }
-  // BREAK TIME STRING INTO OBJ WITH THREE PARTS
+
+  // BREAK TIME STRING INTO hours/minutes/meridiem OBJ
   function parseTime(timeStr) {
     const [hours, minutes, meridiem] = timeStr.split(/[:\s]/);
     return {
@@ -151,7 +156,8 @@ export const ReactTimeTextField = ({
       meridiem
     }
   }
-  // ON BLUR - UPDATE startDateTime IN PARENT COMPONENT
+
+  // ON BLUR
   const onBlurHandler = () => {
     const newStartDateTime = new Date(value);
     newStartDateTime.setHours((time.meridiem === 'PM' && time.hours < 12) ? Number(time.hours) + 12 : Number(time.hours));
@@ -160,6 +166,10 @@ export const ReactTimeTextField = ({
     onBlur(newStartDateTime);
   }
 
+  // TRIGGER REDRAW TO UPDATE textFieldRef values 
+  const redraw = () => setRedrawCounter(redrawCounter => redrawCounter + 1);
+
+  // UPDATE textFieldRef VALUES
   useEffect(() => {
     if (disabled === true || textFieldRef.current === undefined) return;
     keyDownTimer.current = Date.now();
@@ -169,8 +179,7 @@ export const ReactTimeTextField = ({
     textFieldRef.current.selectionEnd = SELECTED_RANGE[selected].end;
   }, [redrawCounter, selected, time, disabled]);
 
-
-
+  // FORMAT PROP 'value' INTO 'time' OBJ
   useEffect(() => {
     if (_.isDate(value)) setTime(parseTime(format(new Date(value), 'hh:mm aa')));
   }, [value]);
