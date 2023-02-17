@@ -6,7 +6,7 @@ A controlled Material-UI TextField for keyboard time input.
 
 - Install by executing `npm install react-time-textfield` or `yarn add react-time-textfield`.
 - Import by adding `import { ReactTimeTextField } from 'react-time-textfield'`.
-- Use by adding `<ReactTimeTextField />`. Use `onBlur` prop for getting new values.
+- Use by adding `<ReactTimeTextField />`. Assign callback to `onBlur` prop to receive new value.
 - Hours/Minutes/Meridiem can be input using both keyboard and up/down arrows. Use Tab and right/left arrows to navigate.
 
 
@@ -14,7 +14,7 @@ A controlled Material-UI TextField for keyboard time input.
 
 ### Installation
 
-Add React-Time-Picker to your project by executing `npm install react-time-textfield` or `yarn add react-time-textfield`.
+Add React-Time-TextField to your project by executing `npm install react-time-textfield` or `yarn add react-time-textfield`.
 
 ### Usage
 
@@ -50,7 +50,7 @@ ReactTimeTextField uses Material-UI TextField. Just pass any styling-related pro
  />
 ```
 
-NOTE: onChange, onKeyDown, and onClick props are used internally and are not available. Use onBlur callback to receive date object with specified time value.
+NOTE: *onChange*, *onKeyDown*, and *onClick* props are used internally and are not available. Use *onBlur* callback to receive date object with specified time value.
 
 
 
