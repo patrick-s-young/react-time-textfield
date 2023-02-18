@@ -2,6 +2,8 @@
 
 A controlled Material-UI TextField for keyboard time input.
 
+![react-time-textfield-demo](https://user-images.githubusercontent.com/42591798/219899124-abe75346-f33a-4371-8d22-34c729d31ecf.gif)
+
 ## Quick Start
 
 - Install by executing `npm install react-time-textfield` or `yarn add react-time-textfield`.
