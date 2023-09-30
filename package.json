@@ -1,6 +1,6 @@
 {
   "name": "react-time-textfield",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Material UI TextField with controlled hour/minute/meridiem input",
   "main": "dist/index.cjs",
   "module": "dist/index.es.js",
